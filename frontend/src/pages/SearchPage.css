@@ -1,0 +1,128 @@
+.search-page {
+    padding: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .search-container {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+  
+  .search-container h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+  }
+  
+  .search-form {
+    display: flex;
+    gap: 10px;
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 14px 20px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #3498db;
+  }
+  
+  .search-btn {
+    padding: 14px 35px;
+    font-size: 16px;
+    font-weight: bold;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    white-space: nowrap;
+  }
+  
+  .search-btn:hover {
+    background: #2980b9;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    padding: 40px;
+  }
+  
+  .no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+    padding: 40px;
+  }
+  
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    justify-items: center;
+    width: 100%;
+  }
+  
+  /* Responsive breakpoints */
+  @media (max-width: 1400px) {
+    .movies-grid {
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .movies-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    
+    .search-container h1 {
+      font-size: 2rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .search-page {
+      padding: 15px;
+    }
+    
+    .movies-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 15px;
+      padding: 10px;
+    }
+    
+    .search-form {
+      flex-direction: column;
+    }
+    
+    .search-btn {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .movies-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .search-container h1 {
+      font-size: 1.5rem;
+    }
+  }
