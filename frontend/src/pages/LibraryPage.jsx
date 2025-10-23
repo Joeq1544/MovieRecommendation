@@ -4,9 +4,13 @@ import './LibraryPage.css';
 
 const LibraryPage = () => {
   const [ratedMovies, setRatedMovies] = useState([]);
+  const [editingMovieId, setEditingMovieId] = useState(null);
 
   useEffect(() => {
-    // Load rated movies from localStorage
+    loadRatings();
+  }, []);
+
+  const loadRatings = () => {
     const ratings = JSON.parse(localStorage.getItem('movieRatings') || '{}');
     const moviesArray = Object.values(ratings);
     
@@ -14,15 +18,26 @@ const LibraryPage = () => {
     moviesArray.sort((a, b) => b.rating - a.rating);
     
     setRatedMovies(moviesArray);
-  }, []);
+  };
 
   const handleRemoveRating = (movieId) => {
     const ratings = JSON.parse(localStorage.getItem('movieRatings') || '{}');
     delete ratings[movieId];
     localStorage.setItem('movieRatings', JSON.stringify(ratings));
     
-    // Update state
-    setRatedMovies(Object.values(ratings));
+    loadRatings();
+  };
+
+  const handleEditRating = (movieId, newRating) => {
+    const ratings = JSON.parse(localStorage.getItem('movieRatings') || '{}');
+    if (ratings[movieId]) {
+      ratings[movieId].rating = newRating;
+      ratings[movieId].ratedAt = new Date().toISOString();
+      localStorage.setItem('movieRatings', JSON.stringify(ratings));
+      
+      loadRatings();
+      setEditingMovieId(null);
+    }
   };
 
   if (ratedMovies.length === 0) {
@@ -75,12 +90,44 @@ const LibraryPage = () => {
               <p className="rated-date">
                 Rated on {new Date(ratedAt).toLocaleDateString()}
               </p>
-              <button
-                onClick={() => handleRemoveRating(movie.id)}
-                className="remove-btn"
-              >
-                Remove
-              </button>
+
+              {editingMovieId === movie.id ? (
+                <div className="edit-rating-section">
+                  <p className="edit-label">Change rating:</p>
+                  <div className="edit-rating-buttons">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((newRating) => (
+                      <button
+                        key={newRating}
+                        onClick={() => handleEditRating(movie.id, newRating)}
+                        className={`edit-rating-btn ${newRating === rating ? 'current' : ''}`}
+                      >
+                        {newRating}
+                      </button>
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => setEditingMovieId(null)}
+                    className="cancel-edit-btn"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                <div className="library-actions">
+                  <button
+                    onClick={() => setEditingMovieId(movie.id)}
+                    className="edit-btn"
+                  >
+                    Edit Rating
+                  </button>
+                  <button
+                    onClick={() => handleRemoveRating(movie.id)}
+                    className="remove-btn"
+                  >
+                    Remove
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
